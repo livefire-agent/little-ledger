@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Little ledger</title>
+<style>body{font:16px system-ui;margin:2rem;max-width:40rem}li{margin:.25rem 0}</style></head>
+<body>
+<h1 id="greeting">Little ledger</h1>
+<ul id="rows"></ul>
+<p id="footer"></p>
+<script>
+fetch('/api/rows').then((r) => r.json()).then((d) => {
+  if (d.error) { document.getElementById('rows').textContent = d.error; return; }
+  if (d.greeting) document.getElementById('greeting').textContent = d.greeting;
+  document.getElementById('rows').innerHTML = d.rows.map((r) => `<li data-row>${r.name}: ${r.note}</li>`).join('');
+  document.getElementById('footer').textContent = d.footer ?? '';
+});
+</script>
+</body>
+</html>
